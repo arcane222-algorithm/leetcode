@@ -107,10 +107,7 @@ public class Leetcode1319 {
                 }
             }
 
-            if (remainCnt - 1 <= groupCnt) {
-                return remainCnt - 1;
-            }
-            return -1;
+            return groupCnt - 1 <= remainCnt ? groupCnt - 1 : -1;
         }
     }
 }
