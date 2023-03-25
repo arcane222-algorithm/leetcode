@@ -34,8 +34,8 @@ public class Leetcode2316 {
     public static void run() {
         Solution s = new Solution();
 
-        int[][] example1 = new int[][]{{0, 2}, {0, 5}, {2, 4}, {1, 6}, {5, 4}};
-        int[][] example2 = new int[][]{{0, 1}, {0, 3}, {0, 6}, {1, 2}, {1, 3}, {1, 4}, {1, 5}, {2, 3}, {2, 6}, {3, 4}, {3, 5}, {3, 6}, {4, 6}, {5, 6}};
+        int[][] example1 = new int[][]{{0, 1}, {0, 2}, {1, 2}};
+        int[][] example2 = new int[][]{{0, 2}, {0, 5}, {2, 4}, {1, 6}, {5, 4}};
 
         System.out.println(s.countPairs(3, example1));
         System.out.println(s.countPairs(7, example2));
@@ -103,8 +103,19 @@ public class Leetcode2316 {
             if (map.size() == 1) {
                 return 0;
             } else {
+                long result = 0;
                 long sum = 0;
-                for(int i = 0; i < )
+                List<Map.Entry<Integer, Integer>> list = new ArrayList<>(map.entrySet());
+                for (Map.Entry<Integer, Integer> integerIntegerEntry : list) {
+                    sum += integerIntegerEntry.getValue();
+                }
+
+                for (Map.Entry<Integer, Integer> entry : list) {
+                    sum -= entry.getValue();
+                    result += sum * entry.getValue();
+                }
+
+                return result;
             }
         }
     }
