@@ -5,8 +5,8 @@ import java.util.*;
  * Longest Cycle in a Graph - Leetcode2360
  * -----------------
  * category: dfs (깊이 우선 탐색)
- *           topological sort (위상 정렬)
- *           strongly connected component (강한 연결 요소)
+ * topological sort (위상 정렬)
+ * strongly connected component (강한 연결 요소)
  * -----------------
  * Input 1
  * edges = [3,3,4,2,3]
@@ -32,14 +32,19 @@ public class Leetcode2360 {
 
     public static void run() {
         Solution s = new Solution();
+        Solution2 s2 = new Solution2();
 
         int[] example1 = new int[]{3, 3, 4, 2, 3};
         int[] example2 = new int[]{2, -1, 3, 1};
 
         System.out.println(s.longestCycle(example1));
         System.out.println(s.longestCycle(example2));
+
+        System.out.println(s2.longestCycle(example1));
+        System.out.println(s2.longestCycle(example2));
     }
 
+    // SCC (Strongly Connected Component) - Tarjan's Algorithm
     private static class Solution {
 
         static int nodeCount;
@@ -111,6 +116,53 @@ public class Leetcode2360 {
             init(edges);
             getScc(edges.length);
             return max == 1 ? -1 : max;
+        }
+    }
+
+    // Topological Sorting - Kahn's Algorithm (InDegree based topological sorting)
+    private static class Solution2 {
+        public int longestCycle(int[] edges) {
+            int[] inDegrees = new int[edges.length];
+            for (int dest : edges) {
+                if (dest != -1) {
+                    inDegrees[dest]++;
+                }
+            }
+
+            Queue<Integer> queue = new LinkedList<>();
+            for (int i = 0; i < inDegrees.length; i++) {
+                if (inDegrees[i] == 0)
+                    queue.add(i);
+            }
+
+            while (!queue.isEmpty()) {
+                int curr = queue.poll();
+                int dest = edges[curr];
+
+                if (dest != -1) {
+                    inDegrees[dest]--;
+                    if (inDegrees[dest] == 0)
+                        queue.add(dest);
+                }
+            }
+
+            int result = -1;
+            for (int i = 0; i < inDegrees.length; i++) {
+                if (inDegrees[i] > 0) {
+                    int dest = edges[i];
+                    int cnt = 1;
+                    inDegrees[i] = 0;
+
+                    while (dest != i) {
+                        inDegrees[dest] = 0;
+                        dest = edges[dest];
+                        cnt++;
+                    }
+                    result = Math.max(result, cnt);
+                }
+            }
+
+            return result;
         }
     }
 }
