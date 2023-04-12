@@ -4,6 +4,6 @@ import java.io.*;
 public class Main {
 
     public static void main(String[] args) {
-        Leetcode2390.run();
+        Leetcode71.run();
     }
 }
